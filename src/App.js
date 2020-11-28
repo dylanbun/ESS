@@ -6,6 +6,7 @@ import firebase, {auth, provider, storage} from './firebase.js';
 // To do list:
 // Add dropdown menu selection to display! (Mostly done, fix 
 // reset of kind state when something is input after selection)
+// ^Form Validation for fixing reset
 // Placement of boxes when displaying items?
 // Need to add ability to submit photos + be seen by users
 // Placement + css of dropdown for essential supplies
@@ -99,7 +100,12 @@ class App extends Component {
       <div className='app'>
         <header>
           <div className="wrapper">
-            <h1>Essential Supplies Stock</h1>
+            <div className="Title">
+              <h1>Essential Supplies Stock</h1>
+            </div>
+            <div className="Subtitle">
+              <h3>Find Essential Supplies Near You!</h3>
+            </div>
             {this.state.user ?
               <button onClick={this.logout}>Logout</button>                
             :
