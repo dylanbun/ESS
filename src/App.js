@@ -27,6 +27,7 @@ class App extends Component {
   }
   handleChange(e) {
     this.setState({
+      kind: e.target.value,
       [e.target.name]: e.target.value
     });
   }
@@ -138,7 +139,7 @@ class App extends Component {
                   <input type="text" name="currentItem" placeholder="What did you find?" onChange={this.handleChange} value={this.state.currentItem} />
                   <input type ="text" name ="location" placeholder ="Where did you find this?" onChange ={this.handleChange} value = {this.state.location}/>
                   <label for="item">What kind of essential supply?</label>
-                  <select id="item" onChange = {this.handleChange} defaultValue = {this.state.kind}>
+                  <select id="item" onChange = {this.handleChange} value = {this.state.kind}>
                       <option value="">Please choose an option</option>
                       <option value="Toilet Paper">Toilet Paper</option>
                       <option value="Pack of Water Bottles">Pack of Water Bottles</option>
