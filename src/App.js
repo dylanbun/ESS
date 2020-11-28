@@ -4,7 +4,8 @@ import firebase, {auth, provider, storage} from './firebase.js';
 
 // Run this using 'npm start' !!!
 // To do list:
-// Add dropdown menu selection to display!
+// Add dropdown menu selection to display! (Mostly done, fix 
+// reset of kind state when something is input after selection)
 // Placement of boxes when displaying items?
 // Need to add ability to submit photos + be seen by users
 // Placement + css of dropdown for essential supplies
