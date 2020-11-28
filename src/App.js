@@ -131,6 +131,7 @@ class App extends Component {
                       <option value="">--Please choose an option--</option>
                       <option value="Toilet Paper">Toilet Paper</option>
                       <option value="Pack of Water Bottles">Pack of Water Bottles</option>
+                      <option value="Hand Sanitizer">Hand Sanitizer</option>
                       <option value="Canned Food">Canned Food</option>
                       <option value="Paper">Paper</option>
                   </select>
