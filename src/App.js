@@ -4,6 +4,7 @@ import firebase, {auth, provider, storage} from './firebase.js';
 
 // Run this using 'npm start' !!!
 // To do list:
+// Add dropdown menu selection to display!
 // Placement of boxes when displaying items?
 // Need to add ability to submit photos + be seen by users
 // Placement + css of dropdown for essential supplies
@@ -15,6 +16,7 @@ class App extends Component {
       currentItem: '',
       username: '',
       location: '',
+      kind:'',
       items: [],
       user: null
     }
@@ -51,13 +53,15 @@ class App extends Component {
     const item = {
       title: this.state.currentItem,
       user: this.state.user.displayName || this.state.user.email,
-      location: this.state.location
+      location: this.state.location,
+      kind: this.state.kind
     }
     itemsRef.push(item);
     this.setState({
       currentItem: '',
       username: '',
-      location: ''
+      location: '',
+      kind: ''
     });
   }
   componentDidMount() {
@@ -75,7 +79,8 @@ class App extends Component {
           id: item,
           title: items[item].title,
           user: items[item].user,
-          location: items[item].location
+          location: items[item].location,
+          kind: items[item].kind
         });
       }
       this.setState({
@@ -106,7 +111,6 @@ class App extends Component {
               <img src={this.state.user.photoURL} />
             </div>
             <div className='container'>
-              {/* .. */}
               <section className='display-item'>
                 <div className="wrapper">
                   <ul>
@@ -114,7 +118,9 @@ class App extends Component {
                       return (
                         <li key={item.id}>
                           <h3>{item.title}</h3>
-                          <p>Product: {item.user}
+                          <h3>Location: {item.location}</h3>
+                          <h3> Type of supply: {item.kind}</h3>
+                          <p>From {item.user}
                             {item.user === this.state.user.displayName || item.user === this.state.user.email ?
                               <button onClick={() => this.removeItem(item.id)}>Remove Item</button> : null}
                           </p>
@@ -129,18 +135,17 @@ class App extends Component {
               <section className='add-item'>
                 <form onSubmit={this.handleSubmit}>
                   <input type="text" name="username" placeholder="What's your name?" value={this.state.user.displayName || this.state.user.email} />
-                  <input type="text" name="currentItem" placeholder="What are you bringing?" onChange={this.handleChange} value={this.state.currentItem} />
-                  <input type ="text" name ="location" placeholder ="Where did you find this?" value ={this.handleChange}/>
+                  <input type="text" name="currentItem" placeholder="What did you find?" onChange={this.handleChange} value={this.state.currentItem} />
+                  <input type ="text" name ="location" placeholder ="Where did you find this?" onChange ={this.handleChange} value = {this.state.location}/>
                   <label for="item">What kind of essential supply?</label>
-                  <select name="Essential Supplies" id="item">
-                      <option value="">--Please choose an option--</option>
+                  <select id="item" onChange = {this.handleChange} defaultValue = {this.state.kind}>
+                      <option value="">Please choose an option</option>
                       <option value="Toilet Paper">Toilet Paper</option>
                       <option value="Pack of Water Bottles">Pack of Water Bottles</option>
                       <option value="Hand Sanitizer">Hand Sanitizer</option>
                       <option value="Canned Food">Canned Food</option>
                       <option value="Paper">Paper</option>
                   </select>
-                  
                   <button>Add Item</button>
                 </form>
               </section>
