@@ -14,6 +14,7 @@ class App extends Component {
     this.state = {
       currentItem: '',
       username: '',
+      location: '',
       items: [],
       user: null
     }
@@ -49,12 +50,14 @@ class App extends Component {
     const itemsRef = firebase.database().ref('items');
     const item = {
       title: this.state.currentItem,
-      user: this.state.user.displayName || this.state.user.email
+      user: this.state.user.displayName || this.state.user.email,
+      location: this.state.location
     }
     itemsRef.push(item);
     this.setState({
       currentItem: '',
-      username: ''
+      username: '',
+      location: ''
     });
   }
   componentDidMount() {
@@ -71,7 +74,8 @@ class App extends Component {
         newState.push({
           id: item,
           title: items[item].title,
-          user: items[item].user
+          user: items[item].user,
+          location: items[item].location
         });
       }
       this.setState({
@@ -126,6 +130,7 @@ class App extends Component {
                 <form onSubmit={this.handleSubmit}>
                   <input type="text" name="username" placeholder="What's your name?" value={this.state.user.displayName || this.state.user.email} />
                   <input type="text" name="currentItem" placeholder="What are you bringing?" onChange={this.handleChange} value={this.state.currentItem} />
+                  <input type ="text" name ="location" placeholder ="Where did you find this?" value ={this.handleChange}/>
                   <label for="item">What kind of essential supply?</label>
                   <select name="Essential Supplies" id="item">
                       <option value="">--Please choose an option--</option>
@@ -135,7 +140,7 @@ class App extends Component {
                       <option value="Canned Food">Canned Food</option>
                       <option value="Paper">Paper</option>
                   </select>
-                  <input type = "text" name = "location" placeholder = "Where did you find this?" value = {this.handleChange}/>
+                  
                   <button>Add Item</button>
                 </form>
               </section>
