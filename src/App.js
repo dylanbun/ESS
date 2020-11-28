@@ -19,6 +19,7 @@ class App extends Component {
       username: '',
       location: '',
       kind:'',
+      photo: '',
       items: [],
       user: null
     }
@@ -57,14 +58,16 @@ class App extends Component {
       title: this.state.currentItem,
       user: this.state.user.displayName || this.state.user.email,
       location: this.state.location,
-      kind: this.state.kind
+      kind: this.state.kind,
+      photo: this.state.photo
     }
     itemsRef.push(item);
     this.setState({
       currentItem: '',
       username: '',
       location: '',
-      kind: ''
+      kind: '',
+      photo: ''
     });
   }
   componentDidMount() {
@@ -83,7 +86,8 @@ class App extends Component {
           title: items[item].title,
           user: items[item].user,
           location: items[item].location,
-          kind: items[item].kind
+          kind: items[item].kind,
+          photo: items[item].photo
         });
       }
       this.setState({
@@ -154,6 +158,8 @@ class App extends Component {
                       <option value="Canned Food">Canned Food</option>
                       <option value="Paper">Paper</option>
                   </select>
+                  <p><h3> Please submit a photo for reference </h3></p>
+                  <input type = "file" name = "photo" onChange = {this.handleChange} value = {this.state.photo}/>
                   <button>Add Item</button>
                 </form>
               </section>
