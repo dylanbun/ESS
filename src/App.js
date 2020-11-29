@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import firebase, {auth, provider, storage} from './firebase.js';
+import ImageUpload from './ImageUploader/index';
 
 // Run this using 'npm start' !!!
 // To do list:
@@ -12,8 +13,8 @@ import firebase, {auth, provider, storage} from './firebase.js';
 // Placement + css of dropdown for essential supplies
 // Notification system to users?
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       currentItem: '',
       username: '',
@@ -59,7 +60,6 @@ class App extends Component {
       user: this.state.user.displayName || this.state.user.email,
       location: this.state.location,
       kind: this.state.kind,
-      photo: this.state.photo
     }
     itemsRef.push(item);
     this.setState({
@@ -67,33 +67,36 @@ class App extends Component {
       username: '',
       location: '',
       kind: '',
-      photo: ''
     });
   }
-  componentDidMount() {
-    const itemsRef = firebase.database().ref('items');
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ user});
-      }
-    });
-    itemsRef.on('value', (snapshot) => {
-      let items = snapshot.val();
-      let newState = [];
-      for (let item in items) {
-        newState.push({
-          id: item,
-          title: items[item].title,
-          user: items[item].user,
-          location: items[item].location,
-          kind: items[item].kind,
-          photo: items[item].photo
-        });
-      }
-      this.setState({
-        items: newState
+handleUpload = () => {
+  const {image} = this.state;
+  const uploadTask = storage.ref('images/${')
+}
+componentDidMount() {
+  const itemsRef = firebase.database().ref('items');
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      this.setState({ user});
+   }
+  });
+  itemsRef.on('value', (snapshot) => {
+    let items = snapshot.val();
+    let newState = [];
+    for (let item in items) {
+      newState.push({
+        id: item,
+        title: items[item].title,
+        user: items[item].user,
+        location: items[item].location,
+        kind: items[item].kind,          
+        photo: items[item].photo
       });
+    }
+    this.setState({
+      items: newState
     });
+  });
   }
   removeItem(itemId) {
     const itemRef = firebase.database().ref(`/items/${itemId}`);
@@ -132,6 +135,9 @@ class App extends Component {
                           <h3>{item.title}</h3>
                           <h3>Location: {item.location}</h3>
                           <h3> Type of supply: {item.kind}</h3>
+                            <div> 
+                              <img src = {this.state.photo} width = "200" height = "200" alt = "user submission"/>
+                            </div>
                           <p>From {item.user}
                             {item.user === this.state.user.displayName || item.user === this.state.user.email ?
                               <button onClick={() => this.removeItem(item.id)}>Remove Item</button> : null}
@@ -159,7 +165,9 @@ class App extends Component {
                       <option value="Paper">Paper</option>
                   </select>
                   <p><h3> Please submit a photo for reference </h3></p>
-                  <input type = "file" name = "photo" onChange = {this.handleChange} value = {this.state.photo}/>
+                  <div>
+                    <ImageUpload/>
+                  </div>
                   <button>Add Item</button>
                 </form>
               </section>
