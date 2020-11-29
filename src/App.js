@@ -162,9 +162,7 @@ componentDidMount() {
               <section className='add-item'>
                 <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
                   <input type="text" name="username" placeholder="What's your name?" value={this.state.user.displayName || this.state.user.email} />
-                  <input type="text" name="currentItem" placeholder="What did you find?" onChange={this.handleChange} value={this.state.currentItem} />
-                  <input type ="text" name ="location" placeholder ="Where did you find this?" onChange ={this.handleChange} value = {this.state.location}/>
-                  <label for="item">What kind of essential supply?</label>
+                  <label for="item"> <h3>What kind of essential supply?</h3></label>
                   <select id="item" onChange = {this.handleChange}>
                       <option value="">Please choose an option</option>
                       <option value="Toilet Paper">Toilet Paper</option>
@@ -177,6 +175,8 @@ componentDidMount() {
                   <div>
                     <ImageUpload/>
                   </div>
+                  <input type="text" name="currentItem" placeholder="What did you find?" onChange={this.handleChange} value={this.state.currentItem} />
+                  <input type ="text" name ="location" placeholder ="Where did you find this?" onChange ={this.handleChange} value = {this.state.location}/>
                   <button>Add Item</button>
                 </form>
               </section>
