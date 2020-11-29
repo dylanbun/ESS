@@ -17,7 +17,14 @@ class ImageUpload extends Component {
         this.setState(() => ({ image }));
       }
     };
-  
+    removeItem(image) {
+        const itemRef = storage.ref(`/images/${image}`);
+        itemRef.delete().then(function() {
+
+        }).catch(function(error) {
+
+        })
+      }
     handleUpload = () => {
       const { image } = this.state;
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
@@ -26,7 +33,7 @@ class ImageUpload extends Component {
         snapshot => {
           // progress function ...
           const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 1000
           );
           this.setState({ progress });
         },
@@ -49,37 +56,31 @@ class ImageUpload extends Component {
     render() {
       return (
         <div className="center">
-            <br/>
-            <br/>
-            <br/>
-          <div className="row">
-            <progress value={this.state.progress} max="100" className="progress" />
-          </div>
-          <br />
-          <br />
-          <br />
           <div className="file-field input-field">
             <div className="btn">
-              <input type="file" onChange={this.handleChange} />
+                <input type="file" onChange={this.handleChange} />
             </div>
-            <div className="file-path-wrapper">
-              <input className="file-path validate" type="text" />
+            <p> <h3> Progress: {this.state.progress} % </h3></p>
+            <div className="row">
+                <progress value={this.state.progress} max="1000" className="progress" />
             </div>
-          </div>
-          <button
+            <button
             onClick={this.handleUpload}
-            className="waves-effect waves-light btn"
-          >
+            className="waves-effect waves-light btn">
             Upload
           </button>
-          <br />
-          <br />
+          <p> <h3> Image Preview: </h3></p>
           <img
             src={this.state.url || "https://via.placeholder.com/400x300"}
             alt="Uploaded Images"
             height="300"
             width="400"
           />
+          <button
+              onClick = {this.removeItem}>
+              Remove Image
+          </button>
+          </div>
         </div>
       );
     }
