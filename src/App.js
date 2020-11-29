@@ -140,7 +140,12 @@ componentDidMount() {
                           <h3>Location: {item.location}</h3>
                           <h3> Type of supply: {item.kind}</h3>
                             <div> 
-                              <img src = {this.state.photo} width = "200" height = "200" alt = "user submission"/>
+                              <img
+                                src={this.state.url || "https://via.placeholder.com/300x300"}
+                                alt="Uploaded Image from user" 
+                                height="300"
+                                width="308"
+                              />
                             </div>
                           <p>From {item.user}
                             {item.user === this.state.user.displayName || item.user === this.state.user.email ?
