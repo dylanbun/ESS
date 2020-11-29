@@ -12,6 +12,7 @@ import ImageUpload from './ImageUploader/index';
 // Need to add ability to submit photos + be seen by users
 // Placement + css of dropdown for essential supplies
 // Notification system to users?
+// Turn logout button into a drop down menu with logout, about, 
 class App extends Component {
   constructor(props) {
     super(props);
@@ -30,11 +31,14 @@ class App extends Component {
     this.logout = this.logout.bind(this);
   }
   handleChange(e) {
+    if(e.target.kind === '') {
+      this.setState({kind: e.target.value});
+    }
     this.setState({
-      kind: e.target.value,
       [e.target.name]: e.target.value
     });
   }
+  
   logout() {
     auth.signOut()
       .then(() => {
@@ -151,12 +155,12 @@ componentDidMount() {
             </div>
             <div className='container'>
               <section className='add-item'>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
                   <input type="text" name="username" placeholder="What's your name?" value={this.state.user.displayName || this.state.user.email} />
                   <input type="text" name="currentItem" placeholder="What did you find?" onChange={this.handleChange} value={this.state.currentItem} />
                   <input type ="text" name ="location" placeholder ="Where did you find this?" onChange ={this.handleChange} value = {this.state.location}/>
                   <label for="item">What kind of essential supply?</label>
-                  <select id="item" onChange = {this.handleChange} value = {this.state.kind}>
+                  <select id="item" onChange = {this.handleChange}>
                       <option value="">Please choose an option</option>
                       <option value="Toilet Paper">Toilet Paper</option>
                       <option value="Pack of Water Bottles">Pack of Water Bottles</option>
