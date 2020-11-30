@@ -7,9 +7,7 @@ import 'react-tabs/style/react-tabs.css';
 // Run this using 'npm start' !!!
 // Also download react-tabs, react-app and node.js
 // To do :
-// Fix validation to prevent submission to database
 // Fix display for submission
-// Update CSS for add-item box
 const validateForm = errors => {
   let valid = true;
   Object.values(errors).forEach(val => val.length > 0 && (valid = false));
@@ -129,7 +127,7 @@ class App extends Component {
         break;
       case "currentItem":
         errors.currentItem =
-          value.length < 6 ? "Item name must be 5 characters long!" : "" ;
+          value.length < 5 ? "Item name must be 5 characters long!" : "" ;
         break;
       case "location":
         errors.location =
@@ -148,6 +146,7 @@ class App extends Component {
     event.preventDefault();
     this.setState({ formValid: validateForm(this.state.errors) });
     this.setState({ errorCount: countErrors(this.state.errors) });
+
     const itemsRef = firebase.database().ref('items');
     const item = {
       title: this.state.currentItem,
@@ -198,9 +197,9 @@ class App extends Component {
                         {this.state.items.map((item) => {
                           return (
                             <li key={item.id}>
-                              <h3>Supply: {item.title}</h3>
+                              <h3>Item: {item.title}</h3>
                               <h3>Location: {item.location}</h3>
-                              <h3> Type of supply: {item.kind}</h3>
+                              <h3> Type of Item: {item.kind}</h3>
                               <p>From {item.user}
                                 {item.user === this.state.user.displayName || item.user === this.state.user.email ?
                                   <button className="remove" onClick={() => this.removeItem(item.id)}>Remove Item</button> : null}
@@ -214,7 +213,7 @@ class App extends Component {
                 </div>
                 <div className='container'>
                   <section className='add-item'>
-                    <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+                    <form onSubmit= {this.state.errorCount === false? {handleSubSubmit} : ""} onChange={this.handleChange}>
                       <p className="itemlabel">Enter product information:</p>
                       <div className = 'fullName'>
                           <label htmlFor = "fullName"> Full Name </label>
@@ -237,7 +236,6 @@ class App extends Component {
                           <span className = 'error'>{errors.location} </span> 
                         }
                       </div>
-                      <div>
                         <label htmlFor="kind">What kind of essential supply?</label>
                         <select className="dropdown" id="kind" onChange={this.handleKindChange}>
                           <option selected value="">Please choose an option</option>
@@ -251,17 +249,13 @@ class App extends Component {
                           <option value = "Frozen Foods">Frozen Foods </option>
                           <option value = "Tissues"> Tissues</option>
                         </select>
-                      </div>
 
                       <div>
                         <button className="submitbutton">Add Item</button>
                       </div>
-                      {this.state.errorCount !== null ? (
-                          <p className="form-status">
-                          Form is {formValid ? "valid ✅" : "invalid ❌"}
-                          </p>
-                        ) : 
-                          ("Form not submitted")}
+                      {this.state.errorCount !== null ? <p className="form-status">Submission is {formValid ? 'valid ✅' : 'invalid ❌'}</p> : 'Form not submitted'}
+                      
+
                     </form>
                   </section>
                 </div>
@@ -274,7 +268,7 @@ class App extends Component {
           </div>
         </TabPanel>
         <TabPanel>
-            <div style={{ height: 400, padding: 20, background: 'darkgray'}}> 
+            <div style={{ height: 400, padding: 20, background: 'white'}}> 
               <h1>Welcome to Essential Supply Stock!</h1>
               <h2>Helping you find essential supplies near you!</h2>
               <h1>~ ~ ~</h1>
@@ -282,6 +276,13 @@ class App extends Component {
               <p>including toilet paper, tissues, bottled water, hand sanitizer, masks, canned food, and first aid kits.</p>
               <p>Our mission here at Essential Supplies Stock is to help users find locations where essential supplies</p>
               <p>are currently in stock, making trips to stores more meaningful and productive.</p>
+              <p> <h1> Future Implementations to ESS:</h1></p>
+                <ul>
+                  <li> <p> Photo Submission by Users</p></li>
+                  <li> <p>Autofill for addresses </p></li>
+                  <li> <p>Usage of ML to help classify photos </p></li>
+                  <li> <p>Notify users when an user's submission is approved by the ML</p></li>
+                </ul>
             </div>
         </TabPanel>
       </Tabs>
