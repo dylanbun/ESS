@@ -1,31 +1,40 @@
 import React, { Component } from 'react';
 import './App.css';
 import firebase, { auth, provider, storage } from './firebase.js';
-import ImageUpload from './ImageUploader/index';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
 // Run this using 'npm start' !!!
-// To do list:
-// Add dropdown menu selection to display! (Mostly done, fix 
-// reset of kind state when something is input after selection)
-// ^Form Validation for fixing reset
-// Placement of boxes when displaying items?
-// Need to add ability to submit photos + be seen by users
-// Placement + css of dropdown for essential supplies
-// Notification system to users?
-// Turn logout button into a drop down menu with logout, about, 
+// Also download react-tabs, react-app and node.js
+// To do :
+// Fix validation to prevent submission to database
+// Fix display for submission
+// Update CSS for add-item box
+const validateForm = errors => {
+  let valid = true;
+  Object.values(errors).forEach(val => val.length > 0 && (valid = false));
+  return valid;
+};
+
+const countErrors = errors => {
+  let count = 0;
+  Object.values(errors).forEach(val => val.length > 0 && (count = count + 1));
+  return count;
+};
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentItem: '',
-      username: '',
-      location: '',
-      kind: '',
-      photo: '',
+      formValid: false,
+      errorCount: null,
       items: [],
-      user: null
+      user: null,
+      errors: {
+        fullName: "",
+        currentItem: "",
+        location: "",
+        kind: ""
+      }
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleKindChange = this.handleKindChange.bind(this);
@@ -72,7 +81,7 @@ class App extends Component {
     itemsRef.push(item);
     this.setState({
       currentItem: '',
-      username: '',
+      fullName: '',
       location: '',
     });
   }
@@ -97,7 +106,6 @@ class App extends Component {
           user: items[item].user,
           location: items[item].location,
           kind: items[item].kind,
-          photo: items[item].photo
         });
       }
       this.setState({
@@ -109,7 +117,53 @@ class App extends Component {
     const itemRef = firebase.database().ref(`/items/${itemId}`);
     itemRef.remove();
   }
+  handleSubChange = event => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    let errors = this.state.errors;
+
+    switch (name) {
+      case "fullName":
+        errors.fullName =
+          value.length < 5 ? "Full name must be 5 letters long!" : "";
+        break;
+      case "currentItem":
+        errors.currentItem =
+          value.length < 6 ? "Item name must be 5 characters long!" : "" ;
+        break;
+      case "location":
+        errors.location =
+          value.length < 5 ? "Location must be 5 letters long!" : "";
+        break;
+      case "kind":
+        errors.kind = 
+          value.kind < 0 ? "Must select a kind of supply!" : "";
+      default:
+        break;
+    }
+
+    this.setState({ errors, [name]: value });
+  };
+  handleSubSubmit = event => {
+    event.preventDefault();
+    this.setState({ formValid: validateForm(this.state.errors) });
+    this.setState({ errorCount: countErrors(this.state.errors) });
+    const itemsRef = firebase.database().ref('items');
+    const item = {
+      title: this.state.currentItem,
+      user: this.state.user.displayName || this.state.user.email,
+      location: this.state.location,
+      kind: this.state.kind,
+    }
+    itemsRef.push(item);
+    this.setState({
+      currentItem: '',
+      fullName: '',
+      location: '',
+    });
+  };
   render() {
+    const { errors, formValid } = this.state;
     return (
       <Tabs className="tabs-background">
         <header>
@@ -147,14 +201,6 @@ class App extends Component {
                               <h3>Supply: {item.title}</h3>
                               <h3>Location: {item.location}</h3>
                               <h3> Type of supply: {item.kind}</h3>
-                              <div>
-                                <img
-                                  src={this.state.url || "https://via.placeholder.com/300x300"}
-                                  alt="Uploaded Image from user"
-                                  height="300"
-                                  width="308"
-                                />
-                              </div>
                               <p>From {item.user}
                                 {item.user === this.state.user.displayName || item.user === this.state.user.email ?
                                   <button className="remove" onClick={() => this.removeItem(item.id)}>Remove Item</button> : null}
@@ -170,23 +216,52 @@ class App extends Component {
                   <section className='add-item'>
                     <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
                       <p className="itemlabel">Enter product information:</p>
-                      <input type="text" name="username" placeholder="What's your name?" value={this.state.user.displayName || this.state.user.email} />
-                      <input type="text" name="currentItem" placeholder="What did you find?" onChange={this.handleChange} value={this.state.currentItem} />
-                      <input type="text" name="location" placeholder="Where did you find this?" onChange={this.handleChange} value={this.state.location} />
-                      <label for="item"><h3> What kind of essential supply?</h3></label>
-                      <select className="dropdown" id="item" onChange={this.handleKindChange}>
-                        <option selected value="">Please choose an option</option>
-                        <option value="Toilet Paper">Toilet Paper</option>
-                        <option value="Pack of Water Bottles">Pack of Water Bottles</option>
-                        <option value="Hand Sanitizer">Hand Sanitizer</option>
-                        <option value="Dried/Canned Food">Dried/Canned Food</option>
-                        <option value="Masks">Masks</option>
-                        <option value = "Water Purifier"> Water Purifier</option>
-                        <option value = "First Aid Kit"> First Aid Kit</option>
-                        <option value = "Frozen Foods">Frozen Foods </option>
-                        <option value = "Tissues"> Tissues</option>
-                      </select>
-                      <button className="submitbutton">Add Item</button>
+                      <div className = 'fullName'>
+                          <label htmlFor = "fullName"> Full Name </label>
+                          <input type = "text" name = "fullName" value = {this.state.user.displayName || this.state.user.email}onChange = {this.handleSubChange} noValidate/>
+                          {errors.fullName.length > 0 &&
+                            <span className = 'error'> {errors.fullName}</span>
+                          }
+                      </div>
+                      <div className = 'currentItem'>
+                        <label htmlFor = 'currentItem'> Item </label>
+                        <input type = 'text' name = "currentItem" onChange = {this.handleSubChange} noValidate/>
+                        {errors.currentItem.length > 0 &&
+                          <span className = 'error'> {errors.currentItem} </span>
+                        }
+                      </div>
+                      <div>
+                        <label htmlFor = 'location'> Location</label>
+                        <input type = 'text' name = 'location' onChange = {this.handleSubChange} noValidate/>
+                        {errors.location.length > 0 &&
+                          <span className = 'error'>{errors.location} </span> 
+                        }
+                      </div>
+                      <div>
+                        <label htmlFor="kind">What kind of essential supply?</label>
+                        <select className="dropdown" id="kind" onChange={this.handleKindChange}>
+                          <option selected value="">Please choose an option</option>
+                          <option value="Toilet Paper">Toilet Paper</option>
+                          <option value="Pack of Water Bottles">Pack of Water Bottles</option>
+                          <option value="Hand Sanitizer">Hand Sanitizer</option>
+                          <option value="Dried/Canned Food">Dried/Canned Food</option>
+                          <option value="Masks">Masks</option>
+                          <option value = "Water Purifier"> Water Purifier</option>
+                          <option value = "First Aid Kit"> First Aid Kit</option>
+                          <option value = "Frozen Foods">Frozen Foods </option>
+                          <option value = "Tissues"> Tissues</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <button className="submitbutton">Add Item</button>
+                      </div>
+                      {this.state.errorCount !== null ? (
+                          <p className="form-status">
+                          Form is {formValid ? "valid ✅" : "invalid ❌"}
+                          </p>
+                        ) : 
+                          ("Form not submitted")}
                     </form>
                   </section>
                 </div>
