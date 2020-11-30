@@ -48,13 +48,14 @@ header i {
 .wrapper {
   max-width: 100%;
   height: 100px;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 
 .add-item {
   border-radius: 2px;
   border-top: 3px solid #103D5D;
   margin-left: 75%;
+  margin-top: -125px;
   background-color: rgb(237, 237, 237);
   padding: 60px 18px;
   box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.12), 0 1px 8px 0 rgba(0,0,0,.2);

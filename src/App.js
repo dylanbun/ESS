@@ -112,13 +112,7 @@ class App extends Component {
   render() {
     return (
       <Tabs className="tabs-background">
-        <TabList>
-          <Tab>ESSENTIAL SUPPLY STOCK</Tab>
-          <Tab>ABOUT PAGE</Tab>
-        </TabList>
-        <TabPanel>
-          <div className='app'>
-            <header>
+        <header>
               <div className="wrapper">
                 <div className="Title">
                   <h1>Essential Supplies Stock</h1>
@@ -131,6 +125,12 @@ class App extends Component {
                 }
               </div>
             </header>
+        <TabList>
+          <Tab>ESSENTIAL SUPPLY STOCK</Tab>
+          <Tab>ABOUT PAGE</Tab>
+        </TabList>
+        <TabPanel>
+          <div className='app'>
             {this.state.user ?
               <div>
                 <div className='user-profile'>
