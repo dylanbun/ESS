@@ -7,7 +7,7 @@ import 'react-tabs/style/react-tabs.css';
 // Run this using 'npm start' !!!
 // Also download react-tabs, react-app and node.js
 // To do :
-// Fix display for submission
+// Make sure invalid submission cannot be submitted
 const validateForm = errors => {
   let valid = true;
   Object.values(errors).forEach(val => val.length > 0 && (valid = false));
@@ -146,7 +146,9 @@ class App extends Component {
     event.preventDefault();
     this.setState({ formValid: validateForm(this.state.errors) });
     this.setState({ errorCount: countErrors(this.state.errors) });
-
+    if (this.state.formValid === false) {
+      return false;
+    }
     const itemsRef = firebase.database().ref('items');
     const item = {
       title: this.state.currentItem,
@@ -213,7 +215,7 @@ class App extends Component {
                 </div>
                 <div className='container'>
                   <section className='add-item'>
-                    <form onSubmit= {this.state.errorCount === false? {handleSubSubmit} : ""} onChange={this.handleChange}>
+                    <form onSubmit= {this.handleSubSubmit} onChange={this.handleChange}>
                       <p className="itemlabel">Enter product information:</p>
                       <div className = 'fullName'>
                           <label htmlFor = "fullName"> Full Name </label>
@@ -249,13 +251,10 @@ class App extends Component {
                           <option value = "Frozen Foods">Frozen Foods </option>
                           <option value = "Tissues"> Tissues</option>
                         </select>
-
                       <div>
                         <button className="submitbutton">Add Item</button>
                       </div>
                       {this.state.errorCount !== null ? <p className="form-status">Submission is {formValid ? 'valid ✅' : 'invalid ❌'}</p> : 'Form not submitted'}
-                      
-
                     </form>
                   </section>
                 </div>
