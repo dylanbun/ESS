@@ -157,7 +157,7 @@ class App extends Component {
                               </div>
                               <p>From {item.user}
                                 {item.user === this.state.user.displayName || item.user === this.state.user.email ?
-                                  <button onClick={() => this.removeItem(item.id)}>Remove Item</button> : null}
+                                  <button className="remove" onClick={() => this.removeItem(item.id)}>Remove Item</button> : null}
                               </p>
                             </li>
                           )
@@ -169,11 +169,12 @@ class App extends Component {
                 <div className='container'>
                   <section className='add-item'>
                     <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+                      <p className="itemlabel">Enter product information:</p>
                       <input type="text" name="username" placeholder="What's your name?" value={this.state.user.displayName || this.state.user.email} />
                       <input type="text" name="currentItem" placeholder="What did you find?" onChange={this.handleChange} value={this.state.currentItem} />
                       <input type="text" name="location" placeholder="Where did you find this?" onChange={this.handleChange} value={this.state.location} />
                       <label for="item"><h3> What kind of essential supply?</h3></label>
-                      <select id="item" onChange={this.handleKindChange}>
+                      <select className="dropdown" id="item" onChange={this.handleKindChange}>
                         <option selected value="">Please choose an option</option>
                         <option value="Toilet Paper">Toilet Paper</option>
                         <option value="Pack of Water Bottles">Pack of Water Bottles</option>
@@ -185,7 +186,7 @@ class App extends Component {
                         <option value = "Frozen Foods">Frozen Foods </option>
                         <option value = "Tissues"> Tissues</option>
                       </select>
-                      <button>Add Item</button>
+                      <button className="submitbutton">Add Item</button>
                     </form>
                   </section>
                 </div>

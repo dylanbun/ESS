@@ -70,7 +70,7 @@ header i {
   box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.12), 0 1px 8px 0 rgba(0,0,0,.2);
   margin-bottom: 20%;  
   width: 50%;
-  height: 400px;
+  height: 375px;
   margin-right: auto;
 }
 
@@ -86,8 +86,19 @@ header i {
 }
 
 .add-item form {
+  margin-top: -50px;
   width: 100%;
   overflow: hidden;
+}
+
+.itemlabel {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.submitbutton {
+  margin-top: 20px;
 }
 
 input {
@@ -228,4 +239,13 @@ p {
   border-bottom: 2px solid #103D5D;
   border-left: 2px solid #103D5D;
   border-right: 2px solid #103D5D;
+}
+
+.remove {
+  align-self: center;
+  margin-right: 35px;
+}
+
+.dropdown {
+  margin-top: 10px;
 }
