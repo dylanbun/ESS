@@ -249,3 +249,33 @@ p {
 .dropdown {
   margin-top: 10px;
 }
+
+
+input.error {
+  border: 1px solid #EADAE4;
+}
+
+.error {
+  color:#db2269;
+  font-size: 0.5em;
+  display: relative;
+}
+
+.fullName,
+.currentItem,
+.location
+.kind {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.fullName {
+  width: 100%;
+}
+
+.item,
+.location,
+.kind {
+  width: 100%;
+}
