@@ -177,8 +177,12 @@ class App extends Component {
                         <option value="Toilet Paper">Toilet Paper</option>
                         <option value="Pack of Water Bottles">Pack of Water Bottles</option>
                         <option value="Hand Sanitizer">Hand Sanitizer</option>
-                        <option value="Canned Food">Canned Food</option>
-                        <option value="Paper">Paper</option>
+                        <option value="Dried/Canned Food">Dried/Canned Food</option>
+                        <option value="Masks">Masks</option>
+                        <option value = "Water Purifier"> Water Purifier</option>
+                        <option value = "First Aid Kit"> First Aid Kit</option>
+                        <option value = "Frozen Foods">Frozen Foods </option>
+                        <option value = "Tissues"> Tissues</option>
                       </select>
                       <button>Add Item</button>
                     </form>
