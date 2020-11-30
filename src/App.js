@@ -193,10 +193,14 @@ class App extends Component {
           </div>
         </TabPanel>
         <TabPanel>
-            <div style={{ height: 400, background: 'darkgray'}}> 
+            <div style={{ height: 400, padding: 20, background: 'darkgray'}}> 
               <h1>Welcome to Essential Supply Stock!</h1>
               <h2>Helping you find essential supplies near you!</h2>
-              <p>Hello</p>
+              <h1>~ ~ ~</h1>
+              <p>During the Covid-19 pandemic, there have been shortages of essential supplies</p>
+              <p>including toilet paper, tissues, bottled water, hand sanitizer, and canned food. Our mission</p>
+              <p>here at Essential Supplies Stock is to help users find locations where essential supplies</p>
+              <p>are currently in stock, making trips to stores more meaningful and productive.</p>
             </div>
         </TabPanel>
       </Tabs>
