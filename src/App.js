@@ -114,9 +114,10 @@ class App extends Component {
       <Tabs className="tabs-background">
         <header>
               <div className="wrapper">
-                <div className="Title">
+                <div className="title">
                   <h1>Essential Supplies Stock</h1>
-                  <h3>Find Essential Supplies Near You!</h3>
+                  <p> </p>
+                  <h3>Find Essential Supplies Here!</h3>
                 </div>
                 {this.state.user ?
                   <button onClick={this.logout}>Logout</button>
@@ -125,9 +126,9 @@ class App extends Component {
                 }
               </div>
             </header>
-        <TabList>
-          <Tab>ESSENTIAL SUPPLY STOCK</Tab>
-          <Tab>ABOUT PAGE</Tab>
+        <TabList className="tabs">
+          <Tab className="tab1">ESSENTIAL SUPPLY STOCK</Tab>
+          <Tab className="tab2">ABOUT PAGE</Tab>
         </TabList>
         <TabPanel>
           <div className='app'>

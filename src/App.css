@@ -9,23 +9,29 @@ header {
   padding: 33px 0 25px 15px;
 }
 
-header p {
-  width: 400px;
-  margin: 0 auto;
-}
 header .wrapper {
   display: flex;
   justify-content: space-between;
 }
 
 header h1 {
-  font-size: 25px;
-  font-weight: 900;
+  text-shadow: 0 0 3px #FA6900, 0 0 5px #103D5D;
+  font-size: 40px;
+  font-weight: bold;
   letter-spacing: 0.3px;
   display: inline-block;
   margin: 0;
   vertical-align: middle;
   
+}
+
+header h3 {
+  text-shadow: 0 0 3px #FA6900, 0 0 5px #103D5D;
+  margin-top: 10px;
+  margin-left: 5px;
+  vertical-align: middle;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .fa {
@@ -195,4 +201,31 @@ h1 {
 
 p {
   text-align: center;
+}
+
+.tabs {
+  margin-top: 25px;
+  margin-left: 5px;
+  border-radius: 10px;
+}
+
+.tab1 {
+  margin-left: 27%;
+  text-align: center;
+  width: 300px;
+  border-radius: 10px;
+  border-top: 2px solid #103D5D;
+  border-bottom: 2px solid #103D5D;
+  border-left: 2px solid #103D5D;
+  border-right: 2px solid #103D5D;
+}
+
+.tab2 {
+  text-align: center;
+  width: 300px;
+  border-radius: 10px;
+  border-top: 2px solid #103D5D;
+  border-bottom: 2px solid #103D5D;
+  border-left: 2px solid #103D5D;
+  border-right: 2px solid #103D5D;
 }
